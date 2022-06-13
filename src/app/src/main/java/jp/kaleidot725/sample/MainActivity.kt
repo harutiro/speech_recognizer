@@ -85,6 +85,9 @@ class MainActivity : AppCompatActivity() {
 
             }
 
+
+
+
             // Called when recognition results are ready.
             override fun onResults(results: Bundle) {
                 val stringArray = results.getStringArrayList(android.speech.SpeechRecognizer.RESULTS_RECOGNITION);
