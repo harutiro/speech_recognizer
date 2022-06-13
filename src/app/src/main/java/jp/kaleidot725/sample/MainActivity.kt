@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     private var speechRecognizer : SpeechRecognizer? = null
 
+    private var resultsString = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,43 +49,49 @@ class MainActivity : AppCompatActivity() {
 
             // Called when the endpointer is ready for the user to start speaking.
             override fun onReadyForSpeech(params: Bundle) {
-                onResult("onReadyForSpeech")
+//                onResult("onReadyForSpeech")
             }
 
             // More sound has been received.
             override fun onBufferReceived(buffer: ByteArray) {
-                onResult("onBufferReceived")
+//                onResult("onBufferReceived")
             }
 
             // Called when partial recognition results are available.
             override fun onPartialResults(partialResults: Bundle) {
-                onResult("onPartialResults")
+//                onResult("onPartialResults")
             }
 
             // Reserved for adding future events.
             override fun onEvent(eventType: Int, params: Bundle) {
-                onResult("onEvent")
+//                onResult("onEvent")
             }
 
             // The user has started to speak.
             override fun onBeginningOfSpeech() {
-                onResult("onBeginningOfSpeech")
+//                onResult("onBeginningOfSpeech")
             }
 
             // Called after the user stops speaking.
             override fun onEndOfSpeech() {
-                onResult("onEndOfSpeech")
+//                onResult("onEndOfSpeech")
             }
 
             // A network or recognition error occurred.
             override fun onError(error: Int) {
-                onResult("onError")
+                resultsString += "onError" + "\n"
+                onResult(resultsString)
+                speechRecognizer?.startListening(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH))
+
             }
 
             // Called when recognition results are ready.
             override fun onResults(results: Bundle) {
                 val stringArray = results.getStringArrayList(android.speech.SpeechRecognizer.RESULTS_RECOGNITION);
-                onResult("onResults " + stringArray.toString())
+                resultsString += stringArray.toString() + "\n"
+                onResult("onResults " + resultsString)
+                speechRecognizer?.startListening(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH))
+
             }
         }
     }
